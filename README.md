@@ -6,7 +6,7 @@
 
 多份同题旧稿合成一份可追溯成稿。先给段落和引文编号，冲突处停住等你决定，确认后再合稿。
 
-它不会把几份旧稿直接写成一篇读着顺的文章。流程是：先给每段和每条引文编号 → 标出重复、互补、后稿替换前稿、互相打架、以及只出现在一份稿里的内容 → 打架的地方停住等你拍板 → 再写合稿 → 最后用脚本核对每个编号都有去向。
+它不会把几份旧稿直接写成一篇读着顺的文章。流程是：先给每段和每条引文编号 → 标出重复、互补、后稿替换前稿、互相打架、以及只出现在一份稿里的内容 → 打架的地方停住等你拍板 → 再写合稿 → 最后用脚本核对：表有没有乱填，以及你标了必须留下的原文还在不在合成稿里。
 
 <p align="center">
   <img src="assets/readme/flow.svg" alt="编号 → 对照 → 暂停 → 合稿 → 核对" width="100%">
@@ -24,7 +24,7 @@
 |---|---|
 | 某一稿里独有的段落不见了 | 只出现在一份稿里的内容必须进合稿，除非你亲自说删 |
 | 冲突被润成「大约」 | 两边对不上就停住，先不写合稿 |
-| 模型口头说「都保住了」 | 用脚本按编号核对，不靠模型自己宣布 |
+| 模型口头说「都保住了」 | 用脚本核对表和合成稿，不靠模型自己宣布 |
 | 比较同一文件的两个版本 | 不是这个工具的工作 |
 
 ## 它会写出哪些文件
@@ -38,7 +38,7 @@
 | `conflicts.md` | 必须由你拍板的项 |
 | `synthesis-plan.md` | 合稿大纲，此时还没有正文 |
 | `merged-draft.md` | 真正的合成稿；冲突还没处理完就不会写 |
-| `coverage-report.md` | 脚本生成的核对报告；还有未决项就会失败 |
+| `coverage-report.md` | 脚本生成的核对报告；表乱填、该留的原文不在、还有未决项，都会失败 |
 
 关系类型和去向状态只定义在 [`skills/draft-lineage/references/merge-contract.md`](skills/draft-lineage/references/merge-contract.md)。
 
@@ -95,12 +95,13 @@ python3 skills/draft-lineage/scripts/index_drafts.py index \
 python3 skills/draft-lineage/scripts/index_drafts.py coverage \
   --inventory /tmp/draft-inventory.json \
   --map /tmp/merge-map.csv \
+  --draft /tmp/merged-draft.md \
   -o /tmp/coverage-report.md
 ```
 
 出现空文件、两个文件同名、或稿里写了 `[3]` 却没有对应出处时，编号命令退出码非 0，不得进入合稿。
 
-核对通过，只说明每个编号都有去向，不说明「这两段算重复」一定分对了。
+核对通过，说明该留的原文还在合成稿里，表也没有用非法去向。不说明「这两段算重复」一定分对了。
 
 ## 示例稿
 
@@ -108,9 +109,10 @@ python3 skills/draft-lineage/scripts/index_drafts.py coverage \
 |---|---|
 | [`fixtures/normal/`](skills/draft-lineage/fixtures/normal) | 跨稿重复、互补、独有例子和新来源都会进入合稿 |
 | [`fixtures/conflict/`](skills/draft-lineage/fixtures/conflict) | 两个发布日对不上，必须停住 |
+| [`fixtures/conflict/resolved/`](skills/draft-lineage/fixtures/conflict/resolved) | 你选完 19 号之后，再合稿、再核对 |
 | [`fixtures/invalid/`](skills/draft-lineage/fixtures/invalid) | 空文件、两个文件同名、引用了不存在的 `[3]`，必须拒绝 |
 
-完整跑通记录见 [`acceptance.md`](acceptance.md)。三组已经关掉：正常组合稿后未决项为 0；冲突组停在冲突清单；无效组在编号失败处被拒绝。
+跑通记录见 [`acceptance.md`](acceptance.md)。成品在各组 `accepted/` 里，clone 就能看见。
 
 ## 仓库结构
 
@@ -133,7 +135,7 @@ draft-lineage/
 
 - 不会从空白写文章，也不会上网补事实。
 - 不会替你判断冲突里哪一边是对的。
-- 核对报告不能证明「重复」没有分错。
+- 核对通过，不表示「重复」一定分对了。它表示该留的原文还在，表也没有乱填。
 - 不处理 Word 修订、git 冲突或 PDF 拼接。
 
 ## 贡献

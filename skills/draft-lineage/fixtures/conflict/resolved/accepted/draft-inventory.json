@@ -1,0 +1,94 @@
+{
+  "root": "conflict",
+  "drafts": [
+    {
+      "id": "D1",
+      "path": "a-early.md",
+      "filename": "a-early.md"
+    },
+    {
+      "id": "D2",
+      "path": "b-legal.md",
+      "filename": "b-legal.md"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "D1-S1-P1",
+      "draft": "D1",
+      "kind": "heading",
+      "line": 1,
+      "text": "Launch memo"
+    },
+    {
+      "id": "D1-S1-P2",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 3,
+      "text": "The public launch is 12 March 2026 [1]."
+    },
+    {
+      "id": "D1-S1-P3",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 5,
+      "text": "Engineering freeze is the Friday before that date."
+    },
+    {
+      "id": "D1-S1-P4",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 7,
+      "text": "[1]: Launch calendar, product ops, 2 February 2026."
+    },
+    {
+      "id": "D2-S1-P1",
+      "draft": "D2",
+      "kind": "heading",
+      "line": 1,
+      "text": "Counsel note"
+    },
+    {
+      "id": "D2-S1-P2",
+      "draft": "D2",
+      "kind": "paragraph",
+      "line": 3,
+      "text": "The public launch is 19 March 2026 [1]."
+    },
+    {
+      "id": "D2-S1-P3",
+      "draft": "D2",
+      "kind": "paragraph",
+      "line": 5,
+      "text": "Do not announce an earlier date. The 12 March option is not approved."
+    },
+    {
+      "id": "D2-S1-P4",
+      "draft": "D2",
+      "kind": "paragraph",
+      "line": 7,
+      "text": "[1]: Outside counsel email, 8 March 2026."
+    }
+  ],
+  "citations": [
+    {
+      "id": "D1-R1",
+      "draft": "D1",
+      "kind": "numeric",
+      "marker": "1",
+      "text": "[1]",
+      "line": 3,
+      "resolved": true
+    },
+    {
+      "id": "D2-R1",
+      "draft": "D2",
+      "kind": "numeric",
+      "marker": "1",
+      "text": "[1]",
+      "line": 3,
+      "resolved": true
+    }
+  ],
+  "errors": []
+}

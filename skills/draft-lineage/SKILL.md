@@ -44,15 +44,16 @@ Write these next to the drafts, in an `out/` directory unless the user names ano
 3. **Classify.** Using the inventory IDs, assign each block one relation from the contract. Fill `merge-map.csv` (`source_id,kind,relation,destination,paired_ids,notes`). Write `conflicts.md` and `synthesis-plan.md`.
 4. **Pause.** If the contract says stop, stop. Show the conflicts and any unique blocks proposed for deletion. Wait for an explicit decision on each item. Do not produce `merged-draft.md` first.
 5. **Merge.** After the map has no `unresolved` rows that the contract forbids, write `merged-draft.md`. Every fact, number, quotation, and citation must trace to an inventory ID.
-6. **Cover.** `python3 scripts/index_drafts.py coverage --inventory out/draft-inventory.json --map out/merge-map.csv -o out/coverage-report.md`  
-   If coverage fails, the merge is not done.
+6. **Cover.** After a merge:  
+   `python3 scripts/index_drafts.py coverage --inventory out/draft-inventory.json --map out/merge-map.csv --draft out/merged-draft.md -o out/coverage-report.md`  
+   If coverage fails, the merge is not done. Do not run this as a pass while any row is still `unresolved`.
 
 ## Stop conditions
 
 - Indexer reports empty files, duplicate filenames, or dangling citations
 - Any `conflict` is still `unresolved`
 - Any `unique` block would be dropped without `excluded-by-user`
-- Coverage reports a missing destination or `unresolved: N` where N > 0
+- Coverage reports a missing destination, an illegal map row, missing kept wording, or `unresolved: N` where N > 0
 
 ## What this skill does not do
 

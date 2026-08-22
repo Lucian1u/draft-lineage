@@ -1,0 +1,169 @@
+{
+  "root": "normal",
+  "drafts": [
+    {
+      "id": "D1",
+      "path": "a-newsletter.md",
+      "filename": "a-newsletter.md"
+    },
+    {
+      "id": "D2",
+      "path": "b-talk.md",
+      "filename": "b-talk.md"
+    },
+    {
+      "id": "D3",
+      "path": "c-notes.md",
+      "filename": "c-notes.md"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "D1-S1-P1",
+      "draft": "D1",
+      "kind": "heading",
+      "line": 1,
+      "text": "Why the phone leaves the bedroom"
+    },
+    {
+      "id": "D1-S1-P2",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 3,
+      "text": "Focus is not a character trait. It is a room."
+    },
+    {
+      "id": "D1-S2-P1",
+      "draft": "D1",
+      "kind": "heading",
+      "line": 5,
+      "text": "The eight-second claim"
+    },
+    {
+      "id": "D1-S2-P2",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 7,
+      "text": "Popular talks repeat that average focus lasts 8 seconds [1]."
+    },
+    {
+      "id": "D1-S3-P1",
+      "draft": "D1",
+      "kind": "heading",
+      "line": 9,
+      "text": "A working change"
+    },
+    {
+      "id": "D1-S3-P2",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 11,
+      "text": "A client moved the phone charger to the kitchen. The first week they woke without opening a feed."
+    },
+    {
+      "id": "D1-S3-P3",
+      "draft": "D1",
+      "kind": "paragraph",
+      "line": 13,
+      "text": "[1]: Example Study, 2019, p. 4."
+    },
+    {
+      "id": "D2-S1-P1",
+      "draft": "D2",
+      "kind": "heading",
+      "line": 1,
+      "text": "Attention is an environment"
+    },
+    {
+      "id": "D2-S2-P1",
+      "draft": "D2",
+      "kind": "heading",
+      "line": 3,
+      "text": "Willpower is the wrong lever"
+    },
+    {
+      "id": "D2-S2-P2",
+      "draft": "D2",
+      "kind": "paragraph",
+      "line": 5,
+      "text": "Environment design beats willpower. Put the charger where the morning does not start with a screen."
+    },
+    {
+      "id": "D2-S3-P1",
+      "draft": "D2",
+      "kind": "heading",
+      "line": 7,
+      "text": "The eight-second claim"
+    },
+    {
+      "id": "D2-S3-P2",
+      "draft": "D2",
+      "kind": "paragraph",
+      "line": 9,
+      "text": "Average focus lasts 8 seconds. That number is a staging device, not a diagnosis."
+    },
+    {
+      "id": "D3-S1-P1",
+      "draft": "D3",
+      "kind": "heading",
+      "line": 1,
+      "text": "Chapter notes"
+    },
+    {
+      "id": "D3-S2-P1",
+      "draft": "D3",
+      "kind": "heading",
+      "line": 3,
+      "text": "Number"
+    },
+    {
+      "id": "D3-S2-P2",
+      "draft": "D3",
+      "kind": "paragraph",
+      "line": 5,
+      "text": "Talks still quote 8 seconds."
+    },
+    {
+      "id": "D3-S3-P1",
+      "draft": "D3",
+      "kind": "heading",
+      "line": 7,
+      "text": "Extra source"
+    },
+    {
+      "id": "D3-S3-P2",
+      "draft": "D3",
+      "kind": "paragraph",
+      "line": 9,
+      "text": "A 2024 methods note warns that the 8-second figure is recycled from an unreviewed slide deck [1]."
+    },
+    {
+      "id": "D3-S3-P3",
+      "draft": "D3",
+      "kind": "paragraph",
+      "line": 11,
+      "text": "[1]: Methods Note on Attention Claims, 2024."
+    }
+  ],
+  "citations": [
+    {
+      "id": "D1-R1",
+      "draft": "D1",
+      "kind": "numeric",
+      "marker": "1",
+      "text": "[1]",
+      "line": 7,
+      "resolved": true
+    },
+    {
+      "id": "D3-R1",
+      "draft": "D3",
+      "kind": "numeric",
+      "marker": "1",
+      "text": "[1]",
+      "line": 9,
+      "resolved": true
+    }
+  ],
+  "errors": []
+}

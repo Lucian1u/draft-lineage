@@ -1,0 +1,19 @@
+source_id,kind,relation,destination,paired_ids,notes
+D1-S1-P1,heading,duplicate,included,D2-S1-P1;D3-S1-P1,document title; one survivor
+D1-S1-P2,paragraph,complementary,included,D2-S2-P2,focus-as-room frames the environment claim
+D1-S2-P1,heading,duplicate,included,D2-S3-P1;D3-S2-P1,eight-second section heading
+D1-S2-P2,paragraph,duplicate,included,D2-S3-P2;D3-S2-P2,8-second claim in all three drafts; keep with Example Study
+D1-S3-P1,heading,unique,included,,heading for the unique client story
+D1-S3-P2,paragraph,unique,included,,client story must enter the merged draft
+D1-S3-P3,paragraph,unique,included,,Example Study 2019 definition for D1-R1
+D2-S1-P1,heading,duplicate,merged-as-duplicate,D1-S1-P1,same job: title the manuscript
+D2-S2-P1,heading,unique,included,,environment section heading
+D2-S2-P2,paragraph,complementary,included,D1-S1-P2,environment paragraph from b-talk.md
+D2-S3-P1,heading,duplicate,merged-as-duplicate,D1-S2-P1,same eight-second heading
+D2-S3-P2,paragraph,duplicate,merged-as-duplicate,D1-S2-P2,8-second claim; staging-device gloss folded into the surviving sentence
+D3-S1-P1,heading,duplicate,merged-as-duplicate,D1-S1-P1,same job: title the manuscript
+D3-S2-P1,heading,duplicate,merged-as-duplicate,D1-S2-P1,same job as the eight-second heading
+D3-S2-P2,paragraph,duplicate,merged-as-duplicate,D1-S2-P2,8-second claim
+D3-S3-P1,heading,unique,included,,heading for the 2024 methods note
+D3-S3-P2,paragraph,complementary,included,,2024 methods note and new citation must enter
+D3-S3-P3,paragraph,unique,included,,Methods Note 2024 definition for D3-R1

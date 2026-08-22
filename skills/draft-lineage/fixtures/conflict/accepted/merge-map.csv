@@ -1,0 +1,9 @@
+source_id,kind,relation,destination,paired_ids,notes
+D1-S1-P1,heading,unique,included,,launch memo title
+D1-S1-P2,paragraph,conflict,unresolved,D2-S1-P2,12 March 2026 vs 19 March 2026; do not pick a side or average
+D1-S1-P3,paragraph,unique,included,,engineering freeze depends on the unresolved launch date
+D1-S1-P4,paragraph,unique,included,,Launch calendar definition for D1-R1
+D2-S1-P1,heading,unique,included,,counsel note title
+D2-S1-P2,paragraph,conflict,unresolved,D1-S1-P2,19 March 2026 vs 12 March 2026; file dates are not evolved
+D2-S1-P3,paragraph,conflict,unresolved,D1-S1-P2,explicitly rejects 12 March; still a conflict not a verdict
+D2-S1-P4,paragraph,unique,included,,outside counsel definition for D2-R1

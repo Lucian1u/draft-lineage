@@ -1,3 +1,7 @@
 # Fixtures
 
-Short drafts for the three acceptance cases. `expected.md` in each folder lists the editorial outcome. The indexer can already reject the invalid cases; the Skill run that writes maps and merged drafts is recorded in `/acceptance.md`.
+Short drafts for the acceptance cases. `expected.md` in each folder lists the editorial outcome.
+
+Live outputs that belong on GitHub live in `accepted/` (not `out/`, which is gitignored). `conflict/resolved/` is the same two drafts after an explicit user choice of 19 March.
+
+The Skill run is recorded in `/acceptance.md`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Number draft blocks and citations; check that every ID has a destination."""
+"""Number draft blocks and citations; check destinations and kept wording."""
 
 from __future__ import annotations
 
@@ -20,7 +20,12 @@ DESTINATIONS = frozenset(
         "unresolved",
     }
 )
+RELATIONS = frozenset({"duplicate", "complementary", "evolved", "conflict", "unique"})
+UNIQUE_DESTINATIONS = frozenset({"included", "excluded-by-user", "unresolved"})
 MAP_FIELDS = ("source_id", "kind", "relation", "destination", "paired_ids", "notes")
+WS_RE = re.compile(r"\s+")
+INLINE_NUM_RE = re.compile(r"(?<!!)\[\d+\](?!\()")
+INLINE_FN_RE = re.compile(r"\[\^[^\]]+\]")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 FENCE_RE = re.compile(r"^```")
 FOOTNOTE_DEF_RE = re.compile(r"^\[\^([^\]]+)\]:\s*(.*)$")
@@ -29,7 +34,7 @@ NUMERIC_DEF_RE = re.compile(r"^\[(\d+)\][:.\s]\s*(.*)$")
 MD_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
 NUMERIC_USE_RE = re.compile(r"(?<!!)\[(\d+)\](?!\()")
 DRAFT_SUFFIXES = {".md", ".txt", ".markdown"}
-SKIP_NAMES = {"expected.md", "readme.md"}
+SKIP_NAMES = {"expected.md", "readme.md", "decision.md"}
 
 # ---------------------------------------------------------------------------
 # Discovery
@@ -37,11 +42,13 @@ SKIP_NAMES = {"expected.md", "readme.md"}
 
 
 def is_draft_file(path: Path) -> bool:
-    return (
-        path.is_file()
-        and path.suffix.lower() in DRAFT_SUFFIXES
-        and path.name.lower() not in SKIP_NAMES
-    )
+    if not path.is_file() or path.suffix.lower() not in DRAFT_SUFFIXES:
+        return False
+    if path.name.lower() in SKIP_NAMES:
+        return False
+    if any(part.lower() == "accepted" for part in path.parts):
+        return False
+    return True
 
 
 def discover_files(root: Path, recursive: bool) -> list[Path]:
@@ -289,7 +296,100 @@ def read_map(path: Path) -> tuple[list[dict], list[str]]:
     return rows, errors
 
 
-def coverage_report(inventory: dict, map_rows: list[dict], map_errors: list[str]) -> tuple[str, int]:
+def split_paired_ids(raw: str) -> list[str]:
+    return [part.strip() for part in raw.replace(";", ",").split(",") if part.strip()]
+
+
+def normalize_presence(text: str) -> str:
+    stripped = text.strip()
+    num = NUMERIC_DEF_RE.match(stripped)
+    if num:
+        stripped = num.group(2).strip()
+    else:
+        fn = FOOTNOTE_DEF_RE.match(stripped)
+        if fn:
+            stripped = fn.group(2).strip()
+    stripped = INLINE_NUM_RE.sub(" ", stripped)
+    stripped = INLINE_FN_RE.sub(" ", stripped)
+    return WS_RE.sub(" ", stripped).casefold()
+
+
+def must_appear(row: dict) -> bool:
+    return row["destination"] == "included" and row["relation"] in {"unique", "complementary"}
+
+
+def relation_destination_errors(map_rows: list[dict]) -> list[str]:
+    by_id = {row["source_id"]: row for row in map_rows}
+    errors: list[str] = []
+    for row in map_rows:
+        source_id = row["source_id"]
+        relation = row["relation"]
+        destination = row["destination"]
+        if relation and relation not in RELATIONS:
+            errors.append(f"unknown relation {relation!r} for {source_id}")
+        if not relation:
+            errors.append(f"missing relation for {source_id}")
+        if destination == "merged-as-duplicate" and relation != "duplicate":
+            errors.append(f"{source_id}: merged-as-duplicate requires relation duplicate")
+        if destination == "superseded-with-evidence" and relation != "evolved":
+            errors.append(f"{source_id}: superseded-with-evidence requires relation evolved")
+        if relation == "unique" and destination not in UNIQUE_DESTINATIONS:
+            errors.append(f"{source_id}: unique cannot be {destination}")
+        if relation == "conflict" and destination in {"merged-as-duplicate", "superseded-with-evidence"}:
+            errors.append(f"{source_id}: conflict cannot be {destination}")
+        if relation == "conflict" and destination == "included":
+            paired = split_paired_ids(row["paired_ids"])
+            if not paired:
+                errors.append(f"{source_id}: conflict included requires paired_ids excluded by the user")
+            for other_id in paired:
+                other = by_id.get(other_id)
+                if other is None or other["destination"] != "excluded-by-user":
+                    errors.append(
+                        f"{source_id}: conflict included requires {other_id} excluded-by-user"
+                    )
+        if destination == "superseded-with-evidence":
+            named = False
+            for other in map_rows:
+                if other["relation"] != "evolved" or other["destination"] != "included":
+                    continue
+                if source_id in split_paired_ids(other["paired_ids"]):
+                    named = True
+                    break
+            if not named:
+                errors.append(f"{source_id}: superseded-with-evidence needs an evolved included row that names this ID")
+    return errors
+
+
+def presence_errors(inventory: dict, map_rows: list[dict], merged_text: str | None) -> list[str]:
+    unresolved = any(row["destination"] == "unresolved" for row in map_rows)
+    needed = [row for row in map_rows if must_appear(row)]
+    if unresolved:
+        return []
+    if not needed:
+        return []
+    if merged_text is None:
+        return ["merged draft required to verify kept unique/complementary wording"]
+    haystack = normalize_presence(merged_text)
+    blocks = {block["id"]: block for block in inventory.get("blocks") or []}
+    errors: list[str] = []
+    for row in needed:
+        block = blocks.get(row["source_id"])
+        if not block:
+            continue
+        needle = normalize_presence(block["text"])
+        if not needle:
+            continue
+        if needle not in haystack:
+            errors.append(f"kept wording missing from merged draft: {row['source_id']}")
+    return errors
+
+
+def coverage_report(
+    inventory: dict,
+    map_rows: list[dict],
+    map_errors: list[str],
+    merged_text: str | None = None,
+) -> tuple[str, int]:
     block_ids = [block["id"] for block in inventory["blocks"]]
     mapped = {row["source_id"]: row for row in map_rows}
     missing = [block_id for block_id in block_ids if block_id not in mapped]
@@ -297,6 +397,7 @@ def coverage_report(inventory: dict, map_rows: list[dict], map_errors: list[str]
     unresolved = [row["source_id"] for row in map_rows if row["destination"] == "unresolved"]
     dangling = [cite["id"] for cite in inventory["citations"] if not cite["resolved"]]
     errors = list(inventory.get("errors") or []) + list(map_errors)
+    errors.extend(relation_destination_errors(map_rows))
     if missing:
         errors.append("unmapped blocks: " + ", ".join(missing))
     if extra:
@@ -305,6 +406,7 @@ def coverage_report(inventory: dict, map_rows: list[dict], map_errors: list[str]
         errors.append("unresolved: " + ", ".join(unresolved))
     if dangling:
         errors.append("dangling citations: " + ", ".join(dangling))
+    errors.extend(presence_errors(inventory, map_rows, merged_text))
 
     counts: dict[str, int] = {name: 0 for name in sorted(DESTINATIONS)}
     for row in map_rows:
@@ -381,9 +483,12 @@ def self_test() -> int:
         _write(skip_root / "a.md", "# A\n\nHi.\n")
         _write(skip_root / "b.md", "# B\n\nHi.\n")
         _write(skip_root / "expected.md", "# Not a draft\n\nIgnored.\n")
-        skip_inv = build_inventory(skip_root, recursive=False)
+        accepted = skip_root / "accepted"
+        accepted.mkdir()
+        _write(accepted / "merged-draft.md", "# Merged\n\nNot a source draft.\n")
+        skip_inv = build_inventory(skip_root, recursive=True)
         if skip_inv["errors"] or [d["filename"] for d in skip_inv["drafts"]] != ["a.md", "b.md"]:
-            failures.append("expected.md must not be indexed as a draft")
+            failures.append("expected.md and accepted/ must not be indexed as drafts")
 
         empty_root = Path(tmp) / "empty"
         empty_root.mkdir()
@@ -427,8 +532,98 @@ def self_test() -> int:
                 )
         rows, map_errors = read_map(map_path)
         report, code = coverage_report(inventory, rows, map_errors)
+        if code == 0 or "merged draft required" not in report:
+            failures.append("unique included without a merged draft must fail coverage")
+        kept = (
+            "# Sleep\n\nAverage focus lasts 8 seconds [1].\n\n"
+            "A client moved the phone out of the bedroom.\n\n"
+            "[1]: Example Study, 2019.\n"
+        )
+        report, code = coverage_report(inventory, rows, map_errors, merged_text=kept)
         if code != 0:
-            failures.append(f"complete map should pass coverage:\n{report}")
+            failures.append(f"complete map with kept unique wording should pass coverage:\n{report}")
+        missing_unique = "# Sleep\n\nAverage focus lasts 8 seconds [1].\n\n[1]: Example Study, 2019.\n"
+        report, code = coverage_report(inventory, rows, map_errors, merged_text=missing_unique)
+        if code == 0 or "kept wording missing from merged draft: D1-S1-P3" not in report:
+            failures.append("missing unique wording must fail coverage")
+
+        illegal_map = Path(tmp) / "illegal-map.csv"
+        with illegal_map.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=MAP_FIELDS)
+            writer.writeheader()
+            for block in inventory["blocks"]:
+                destination = "merged-as-duplicate" if block["id"] == "D1-S1-P3" else "included"
+                writer.writerow(
+                    {
+                        "source_id": block["id"],
+                        "kind": block["kind"],
+                        "relation": "unique" if block["id"] == "D1-S1-P3" else "duplicate",
+                        "destination": destination,
+                        "paired_ids": "",
+                        "notes": "",
+                    }
+                )
+        rows, map_errors = read_map(illegal_map)
+        report, code = coverage_report(inventory, rows, map_errors, merged_text=kept)
+        if code == 0 or "unique cannot be merged-as-duplicate" not in report:
+            failures.append("unique merged-as-duplicate must fail coverage")
+
+        conflict_root = Path(tmp) / "conflict"
+        conflict_root.mkdir()
+        _write(conflict_root / "a.md", "# A\n\nLaunch is 12 March 2026.\n")
+        _write(conflict_root / "b.md", "# B\n\nLaunch is 19 March 2026.\n")
+        conflict_inv = build_inventory(conflict_root, recursive=False)
+        both_included = Path(tmp) / "conflict-both.csv"
+        with both_included.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=MAP_FIELDS)
+            writer.writeheader()
+            for block in conflict_inv["blocks"]:
+                relation = "conflict" if block["kind"] == "paragraph" else "unique"
+                paired = "D2-S1-P2" if block["id"] == "D1-S1-P2" else ("D1-S1-P2" if block["id"] == "D2-S1-P2" else "")
+                writer.writerow(
+                    {
+                        "source_id": block["id"],
+                        "kind": block["kind"],
+                        "relation": relation,
+                        "destination": "included",
+                        "paired_ids": paired,
+                        "notes": "",
+                    }
+                )
+        rows, map_errors = read_map(both_included)
+        sneak = "# Launch\n\nLaunch is 12 March 2026.\nLaunch is 19 March 2026.\n"
+        report, code = coverage_report(conflict_inv, rows, map_errors, merged_text=sneak)
+        if code == 0 or "excluded-by-user" not in report:
+            failures.append("conflict included without the other side excluded must fail")
+
+        resolved = Path(tmp) / "conflict-resolved.csv"
+        with resolved.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=MAP_FIELDS)
+            writer.writeheader()
+            for block in conflict_inv["blocks"]:
+                if block["id"] == "D1-S1-P1":
+                    relation, destination, paired = "duplicate", "merged-as-duplicate", "D2-S1-P1"
+                elif block["id"] == "D1-S1-P2":
+                    relation, destination, paired = "conflict", "excluded-by-user", "D2-S1-P2"
+                elif block["id"] == "D2-S1-P2":
+                    relation, destination, paired = "conflict", "included", "D1-S1-P2"
+                else:
+                    relation, destination, paired = "unique", "included", ""
+                writer.writerow(
+                    {
+                        "source_id": block["id"],
+                        "kind": block["kind"],
+                        "relation": relation,
+                        "destination": destination,
+                        "paired_ids": paired,
+                        "notes": "",
+                    }
+                )
+        rows, map_errors = read_map(resolved)
+        chosen = "# B\n\nLaunch is 19 March 2026.\n"
+        report, code = coverage_report(conflict_inv, rows, map_errors, merged_text=chosen)
+        if code != 0:
+            failures.append(f"user-chosen conflict side should pass coverage:\n{report}")
 
         bad_map = Path(tmp) / "bad-map.csv"
         with bad_map.open("w", encoding="utf-8", newline="") as handle:
@@ -491,7 +686,10 @@ def cmd_index(args: argparse.Namespace) -> int:
 def cmd_coverage(args: argparse.Namespace) -> int:
     inventory = json.loads(Path(args.inventory).read_text(encoding="utf-8"))
     rows, map_errors = read_map(Path(args.map))
-    report, code = coverage_report(inventory, rows, map_errors)
+    merged_text = None
+    if args.draft:
+        merged_text = Path(args.draft).read_text(encoding="utf-8")
+    report, code = coverage_report(inventory, rows, map_errors, merged_text=merged_text)
     if args.output:
         Path(args.output).write_text(report, encoding="utf-8")
     else:
@@ -511,9 +709,10 @@ def main() -> int:
     index_p.add_argument("-o", "--output")
     index_p.add_argument("--recursive", action="store_true")
 
-    cov_p = sub.add_parser("coverage", help="fail unless every source ID has a destination")
+    cov_p = sub.add_parser("coverage", help="fail unless destinations are legal and kept wording remains")
     cov_p.add_argument("--inventory", required=True)
     cov_p.add_argument("--map", required=True)
+    cov_p.add_argument("--draft", help="merged-draft.md; required after a merge")
     cov_p.add_argument("-o", "--output")
 
     args = parser.parse_args()
