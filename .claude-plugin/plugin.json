@@ -1,7 +1,7 @@
 {
   "name": "draft-lineage",
   "version": "0.1.0",
-  "description": "Merge 2–6 related drafts only after every paragraph and citation has a destination.",
+  "description": "Merge several drafts of the same subject into one traceable manuscript. Number paragraphs and citations first, pause on conflicts until you decide, then merge.",
   "author": {
     "name": "draft-lineage contributors"
   }

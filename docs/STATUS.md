@@ -24,6 +24,7 @@ Do not create a GitHub Release unless asked.
   - `fixtures/conflict/out/`: `conflicts.md` then stop; no `merged-draft.md`
   - `fixtures/invalid/*`: indexer exit 1; no merged draft
 - Public GitHub remote `Lucian1u/draft-lineage` (MIT)
+- GitHub About and README copy: 多份同题旧稿 → 可追溯成稿；先编号，冲突先停，确认后再合稿
 
 ## Known limits
 
