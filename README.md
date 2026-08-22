@@ -6,8 +6,6 @@
 
 多份同题旧稿合成一份可追溯成稿。先给段落和引文编号，冲突处停住等你决定，确认后再合稿。
 
-Merge several drafts of the same subject into one traceable manuscript. Number paragraphs and citations first, pause on conflicts until you decide, then merge.
-
 它不会把几份旧稿直接写成一篇读着顺的文章。流程是：先给每段和每条引文编号 → 标出重复、互补、后稿替换前稿、互相打架、以及只出现在一份稿里的内容 → 打架的地方停住等你拍板 → 再写合稿 → 最后用脚本核对每个编号都有去向。
 
 <p align="center">
@@ -42,7 +40,7 @@ Merge several drafts of the same subject into one traceable manuscript. Number p
 | `merged-draft.md` | 真正的合成稿；冲突还没处理完就不会写 |
 | `coverage-report.md` | 脚本生成的核对报告；还有未决项就会失败 |
 
-关系类型和去向状态只定义在 [`skills/draft-lineage/references/merge-contract.md`](skills/draft-lineage/references/merge-contract.md)。README 不重复那张表。
+关系类型和去向状态只定义在 [`skills/draft-lineage/references/merge-contract.md`](skills/draft-lineage/references/merge-contract.md)。
 
 ## 安装
 
@@ -125,7 +123,8 @@ draft-lineage/
 │   ├── references/merge-contract.md
 │   ├── scripts/index_drafts.py
 │   └── fixtures/
-├── docs/                   给后续对话用的交接，不是产品介绍
+├── acceptance.md
+├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
 ```

@@ -6,3 +6,7 @@ out/
 *.egg-info/
 .coverage
 .pytest_cache/
+
+# Local handoff — not published
+docs/
+A-20260822-02_多稿合卷_副本.md
