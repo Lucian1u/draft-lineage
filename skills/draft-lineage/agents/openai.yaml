@@ -1,0 +1,5 @@
+interface:
+  display_name: "Draft Lineage"
+  short_description: "Merge 2–6 related drafts only after every claim has a destination"
+  brand_color: "#C4452D"
+  default_prompt: "Use $draft-lineage on these drafts. Index first, map relations, pause on conflicts, then merge only after I decide."

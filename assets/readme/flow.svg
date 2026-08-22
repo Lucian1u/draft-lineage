@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="220" viewBox="0 0 1200 220" role="img" aria-labelledby="title desc">
+  <title id="title">draft-lineage flow</title>
+  <desc id="desc">Index, map, pause, merge, then coverage. Merge does not run while the pause gate is closed.</desc>
+  <rect width="1200" height="220" rx="28" fill="#F3EEE4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <g transform="translate(36 48)">
+      <rect width="196" height="124" rx="14" fill="#FFFCF7" stroke="#D9D0C3"/>
+      <text x="20" y="36" fill="#8A8176" font-size="12">01</text>
+      <text x="20" y="68" fill="#1C1916" font-size="22">INDEX</text>
+      <text x="20" y="96" fill="#6A635B" font-size="13">D1-S2-P3 / D1-R4</text>
+    </g>
+    <g transform="translate(256 48)">
+      <rect width="196" height="124" rx="14" fill="#FFFCF7" stroke="#D9D0C3"/>
+      <text x="20" y="36" fill="#8A8176" font-size="12">02</text>
+      <text x="20" y="68" fill="#1C1916" font-size="22">MAP</text>
+      <text x="20" y="96" fill="#6A635B" font-size="13">five relations</text>
+    </g>
+    <g transform="translate(476 48)">
+      <rect width="196" height="124" rx="14" fill="#C4452D"/>
+      <text x="20" y="36" fill="#F3EEE4" font-size="12">03</text>
+      <text x="20" y="68" fill="#F3EEE4" font-size="22">PAUSE</text>
+      <text x="20" y="96" fill="#F7D7D0" font-size="13">conflicts stay open</text>
+    </g>
+    <g transform="translate(696 48)">
+      <rect width="196" height="124" rx="14" fill="#FFFCF7" stroke="#D9D0C3"/>
+      <text x="20" y="36" fill="#8A8176" font-size="12">04</text>
+      <text x="20" y="68" fill="#1C1916" font-size="22">MERGE</text>
+      <text x="20" y="96" fill="#6A635B" font-size="13">after decisions</text>
+    </g>
+    <g transform="translate(916 48)">
+      <rect width="196" height="124" rx="14" fill="#1C1916"/>
+      <text x="20" y="36" fill="#C4BFB6" font-size="12">05</text>
+      <text x="20" y="68" fill="#F3EEE4" font-size="22">COVER</text>
+      <text x="20" y="96" fill="#C4BFB6" font-size="13">script, not the model</text>
+    </g>
+    <path d="M232 110H256M452 110H476M672 110H696M892 110H916" stroke="#C4452D" stroke-width="2"/>
+  </g>
+</svg>

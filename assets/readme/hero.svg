@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">draft-lineage</title>
+  <desc id="desc">Three overlapping drafts stop at a pause gate, then one merged manuscript with unresolved equal to zero.</desc>
+  <rect width="1200" height="420" rx="28" fill="#F3EEE4"/>
+  <path d="M0 338H1200" stroke="#D9D0C3"/>
+  <path d="M718 0V338" stroke="#D9D0C3"/>
+
+  <g transform="translate(56 48)">
+    <text x="0" y="0" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="2.2">AGENT SKILL / 2–6 DRAFTS</text>
+    <text x="0" y="92" fill="#1C1916" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="750">draft-lineage</text>
+    <text x="2" y="146" fill="#4A453E" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif" font-size="24">先证明每个观点去了哪里，再允许合稿</text>
+    <g transform="translate(2 196)">
+      <rect x="0" y="0" width="108" height="34" rx="17" fill="#1C1916"/>
+      <text x="54" y="23" text-anchor="middle" fill="#F3EEE4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INDEX</text>
+      <rect x="120" y="0" width="96" height="34" rx="17" fill="#E4DCD0"/>
+      <text x="168" y="23" text-anchor="middle" fill="#4A453E" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">MAP</text>
+      <rect x="228" y="0" width="108" height="34" rx="17" fill="#C4452D"/>
+      <text x="282" y="23" text-anchor="middle" fill="#F3EEE4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">PAUSE</text>
+      <rect x="348" y="0" width="118" height="34" rx="17" fill="#E4DCD0"/>
+      <text x="407" y="23" text-anchor="middle" fill="#4A453E" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">COVER</text>
+    </g>
+  </g>
+
+  <g transform="translate(760 46)">
+    <text x="0" y="0" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" letter-spacing="1.6">FAMILY → GATE → MANUSCRIPT</text>
+    <rect x="0" y="28" width="168" height="86" rx="10" fill="#FFFCF7" stroke="#D9D0C3"/>
+    <text x="16" y="54" fill="#C4452D" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">D1</text>
+    <text x="16" y="78" fill="#1C1916" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16">newsletter.md</text>
+    <text x="16" y="98" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">unique example</text>
+    <rect x="188" y="28" width="168" height="86" rx="10" fill="#FFFCF7" stroke="#D9D0C3"/>
+    <text x="204" y="54" fill="#C4452D" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">D2</text>
+    <text x="204" y="78" fill="#1C1916" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16">talk.md</text>
+    <text x="204" y="98" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">complement</text>
+    <rect x="94" y="128" width="168" height="86" rx="10" fill="#FFFCF7" stroke="#D9D0C3"/>
+    <text x="110" y="154" fill="#C4452D" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">D3</text>
+    <text x="110" y="178" fill="#1C1916" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16">notes.md</text>
+    <text x="110" y="198" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">new citation</text>
+    <rect x="94" y="232" width="168" height="44" rx="10" fill="#C4452D"/>
+    <text x="178" y="260" text-anchor="middle" fill="#F3EEE4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16">PAUSE</text>
+  </g>
+
+  <g transform="translate(56 368)">
+    <circle cx="6" cy="0" r="5" fill="#C4452D"/>
+    <text x="22" y="5" fill="#6A635B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">TRACEABLE · NO SILENT DELETES · unresolved: 0</text>
+  </g>
+</svg>

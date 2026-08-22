@@ -1,0 +1,8 @@
+{
+  "name": "draft-lineage",
+  "version": "0.1.0",
+  "description": "Merge 2–6 related drafts only after every paragraph and citation has a destination.",
+  "author": {
+    "name": "draft-lineage contributors"
+  }
+}

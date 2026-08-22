@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">Naive merge versus draft-lineage</title>
+  <desc id="desc">A fluent merge can drop a unique example and invent a middle date. Draft-lineage keeps the example and stops on the date conflict.</desc>
+  <rect width="1200" height="340" rx="28" fill="#F3EEE4"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <g transform="translate(36 28)">
+      <text x="0" y="0" fill="#8A8176" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.6">NAIVE MERGE</text>
+      <rect y="16" width="546" height="268" rx="16" fill="#FFFCF7" stroke="#D9D0C3"/>
+      <text x="28" y="64" fill="#1C1916" font-size="22">A smooth chapter</text>
+      <text x="28" y="108" fill="#6A635B" font-size="16">Client story: missing</text>
+      <text x="28" y="140" fill="#6A635B" font-size="16">Launch date: “around mid-March”</text>
+      <text x="28" y="172" fill="#6A635B" font-size="16">Citation: untracked</text>
+      <text x="28" y="228" fill="#C4452D" font-size="16">Looks finished. Cannot be audited.</text>
+    </g>
+    <g transform="translate(618 28)">
+      <text x="0" y="0" fill="#C4452D" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.6">DRAFT-LINEAGE</text>
+      <rect y="16" width="546" height="268" rx="16" fill="#1C1916"/>
+      <text x="28" y="64" fill="#F3EEE4" font-size="22">A map, then a pause</text>
+      <text x="28" y="108" fill="#E4DCD0" font-size="16">D1-S2-P3 unique → included</text>
+      <text x="28" y="140" fill="#E4DCD0" font-size="16">12 Mar vs 19 Mar → unresolved</text>
+      <text x="28" y="172" fill="#E4DCD0" font-size="16">D2-R1 counsel email → kept</text>
+      <text x="28" y="228" fill="#C4452D" font-size="16">No merged-draft.md until you decide.</text>
+    </g>
+  </g>
+</svg>
